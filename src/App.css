@@ -1,38 +1,427 @@
-.App {
-  text-align: center;
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    padding: 0;
+    margin: 0;
+}
+li{
+    list-style: none;
+}
+body{
+    background-color: #eee;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.viewer{
+    position:fixed;
+    width: 640px;
+    height: 480px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 10px;
+    display: none;
   }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333; 
+    display: block;
+  }
+
+
+.side-menu{
+    position: fixed;/*fixed*/
+    background: #000;
+    width: 300px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    transition: width .2s ease-in;
+    z-index: 1;
+}
+
+.side-menu.inactive{
+    width: 80px;
+}
+
+.side-menu .top-section{
+    position: relative;
+}
+
+.side-menu .top-section .logo{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+}
+.side-menu .top-section .logo img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.side-menu .top-section .toggle-menu-btn{
+    color: #666;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.side-menu.inactive .top-section .toggle-menu-btn{
+    right: -50px;
+}
+
+.side-menu .search-controller{
+    color: #fff;
+    position: relative;
+}
+
+.side-menu .search-controller .search-btn{
+    width: 40px;
+    height: 35px;
+    position: absolute;
+    background: transparent;
+    border: 0;
+    font-size: 20px;
+    color: #888;
+}
+
+.side-menu .search-controller input[type=text]{
+    border: 0;
+    outline: none;
+    height: 35px;
+    background: #333;
+    border-radius: 5px;
+    display: block;
+    margin: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 40px;
+    color: #999;
+}
+
+.side-menu .main-menu .menu-item{
+    color: #888;
+    text-decoration: none;
+    font-size: 15px;
+    display: block;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s;
+    border-radius: 5px;
+}
+
+.main-menu li span{
+    max-width: 200px;
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+}
+.side-menu .main-menu .menu-item:hover {
+    background-color: #666;
+    color:#000
+}
+.side-menu .main-menu .menu-item.naviForParentFolder{
+    color: orange;
+
+}
+
+.side-menu .main-menu{
+    margin: 5px 0;
+    position: relative;
+    max-height: 1300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.side-menu .main-menu .menu-item .menu-icon{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.side-menu .main-menu .menu-item span{
+    position: absolute;
+    display: inline-block;
+    line-height: 40px;
+    opacity: 1;
+    transition: opacity .2s ease-in;
+}
+
+.side-menu.inactive .main-menu .menu-item span{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.side-menu .main-menu .sub-menu{
+    color: #333;
+    margin-left: 20px;
+    border-left: 1px solid #666;
+    box-sizing: border-box;
+    padding-left: 30px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .2s ease-in;
+}
+
+
+
+.side-menu .main-menu .sub-menu.active{
+    max-height: 200px;
+}
+
+.side-menu .main-menu .sub-menu a{
+    display: block;
+    margin: 5px 0;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #333;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+
+.side-menu .main-menu .sub-menu a.active{
+    /* change in background, not recorded in video */
+    background: #222;
+    display: block;
+    
+    border-radius: 5px;
+    color: #fff;
+
+}
+
+.side-menu-footer{
+    width: 100%;
+    background: #333;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.side-menu-footer .avatar{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 5px;
+    display: inline-block;
+}
+.side-menu-footer .avatar img{
+    max-width: 100%;
+}
+
+.side-menu-footer .user-info{
+    display: inline-block;
+    margin: 0 10px;
+    color: #fff;
+    position: absolute;
+    opacity: 1;
+    transition: opacity .2s ease-in;
+}
+
+.side-menu.inactive .side-menu-footer .user-info{
+    opacity: 1;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+
+.side-menu-footer .user-info h5{
+    font-size: 15px;
+}
+
+
+.side-menu-footer .user-info p{
+    font-size: 14px;
+}
+.side-menu-footer i{
+    font-size: 24px;
+    color: white;
+    position: absolute;
+    left: 180px;
+    top: 9px;
+    cursor: pointer;
+    transition: .6s;
+}
+.side-menu-footer i:hover{
+    color:royalblue;
+}
+
+.divider{
+    width: 100%;
+    height: 1px;
+    border-radius: 1px;
+    background: #333;
+}
+
+.container{
+    margin-left: 300px;
+    transition: margin-left .2s ease-in;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.container.inactive{
+    margin-left: 80px;
+}
+
+
+
+
+/*cus*/
+.appp
+{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.asdf{
+    width: 358px;
+    transition: width .2s ease-in;
+}
+.asdf.inactive{
+    width: 82px;
+}
+.main-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+}
+.asdf2{
+    height: 150px;
+    margin-bottom: 15px;
+}
+.asdf3{
+    position: fixed;
+    height:172px;
+    width: 100%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.05), rgb(255, 255, 255, 0.5) 13px, rgb(255,255,255,0.9) 17px, rgb(255, 255, 255) 1px, rgb(255, 255, 255));
+    padding-left: 25px
+}
+.location{
+    height: 50px;
+    border-bottom: solid 1.5px #999;
+    border-radius: 5%;
+    position: fixed;
+    width: 2000px;
+    display: flex;
+}
+.location:first-child{
+    position: fixed;
+    top: 100px;
+    padding-left: 25px;
+}
+.location div{
+    font-size: 25px;
+    font-weight: 700;
+    color: #333;
+    cursor: default;
+}
+.itembox{
+    display:flex;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
+.itembox .item{
+    flex: 1 1 40%;
+    /* flex-basis: 600px; */
+    border: solid 2px #666;
+    border-radius: 10px;
+    margin: 5px 20px;
+    height: 65px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    box-shadow: 2px 2px 5px #666;
+    transition: .5s;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.itembox .item:hover{
+    font-size: 20px;
+    box-shadow: 5px 5px 5px rgb(61, 79, 134);
+    color: royalblue;
+    border: solid 2.2px royalblue;
+}
+.itembox .item i{
+    font-size: 35px;
+    padding-left: 20px;
+}
+.itembox .item div{
+    padding-left: 19px;
+    font-weight: inherit;
+    font-size: inherit;
+}
+@media (max-width: 650px){
+    .location{
+        height: 30px;
+    }
+    .location:first-child{
+        top: 45px;
+    }
+    .location div{
+        top: 35px;
+        left: 75px;
+        font-size: 18px;
+    }
+    .asdf2{
+        height: 80px;
+    }
+    .asdf3 {
+        height: 90px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.05), rgb(255, 255, 255, 0.9) 7px, rgb(255, 255, 255, 0.9) 12px, rgb(255, 255, 255) 1px, rgb(255, 255, 255));
+    }
+    .itembox {
+        margin-left: 30px;
+    }
+    .itembox .item {
+        flex: 1 1 90%;
+        height: 50px;
+        font-size: 13px;
+    }
+    .asdf {
+        width: 82px;
+    }
+    .asdf.inactive {
+        width: 82px;
+    }
+    .side-menu .top-section .toggle-menu-btn {
+        top: 15%;
+    }
+    
 }
